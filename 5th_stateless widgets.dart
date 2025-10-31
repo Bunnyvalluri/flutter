@@ -173,4 +173,86 @@ class _CounterPageState extends State<CounterPage> {
     );
   }
 } 
+//(b)4.create my_list_screen.dart inside the screens folder 
+import 'package:flutter/material.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Cards Example',
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Cards Example')),
+        body: const CardList(),
+      ),
+    );
+  }
+}
+
+class CardList extends StatelessWidget {
+  const CardList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // Stateless widget: UI depends only on configuration (itemCount / builder)
+    return ListView.builder(
+      itemCount: 10,
+      itemBuilder: (context, index) {
+        return CardItem(
+          title: 'Card $index',
+          subtitle: 'Subtitle $index',
+        );
+      },
+    );
+  }
+}
+
+class CardItem extends StatefulWidget {
+  final String title;
+  final String subtitle;
+
+  const CardItem({Key? key, required this.title, required this.subtitle})
+      : super(key: key);
+
+  @override
+  State<CardItem> createState() => _CardItemState();
+}
+
+class _CardItemState extends State<CardItem> {
+  // Stateful widget: keeps local mutable UI state
+  bool _isFavorite = false;
+
+  void _toggleFavorite() {
+    setState(() {
+      _isFavorite = !_isFavorite;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: ListTile(
+        leading: CircleAvatar(
+          child: Text(widget.title.substring(0, 1)),
+        ),
+        title: Text(widget.title),
+        subtitle: Text(widget.subtitle),
+        trailing: IconButton(
+          icon: Icon(
+            _isFavorite ? Icons.favorite : Icons.favorite_border,
+            color: _isFavorite ? Colors.red : null,
+          ),
+          onPressed: _toggleFavorite,
+        ),
+        onTap: _toggleFavorite,
+      ),
+    );
+  }
+}
 
