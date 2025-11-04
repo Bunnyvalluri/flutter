@@ -196,3 +196,205 @@ height: 100,
 }
 
 
+lets create into lib inside the main.file : 
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const LayoutDemosApp());
+}
+
+class LayoutDemosApp extends StatelessWidget {
+  const LayoutDemosApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Layout Demos',
+      theme: ThemeData.from(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+      ),
+      home: const HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Layout Widgets: Row · Column · Stack')),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          const Text(
+            'Choose a demo to explore common layout widgets in Flutter.',
+            style: TextStyle(fontSize: 16),
+          ),
+          const SizedBox(height: 12),
+          DemoTile(
+            title: 'Row Layout',
+            subtitle: 'Horizontal arrangement of children',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const RowDemo()),
+            ),
+          ),
+          DemoTile(
+            title: 'Column Layout',
+            subtitle: 'Vertical arrangement of children',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ColumnDemo()),
+            ),
+          ),
+          DemoTile(
+            title: 'Stack Layout',
+            subtitle: 'Overlay widgets on top of each other',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const StackDemo()),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DemoTile extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+
+  const DemoTile({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        title: Text(title),
+        subtitle: Text(subtitle),
+        trailing: const Icon(Icons.arrow_forward),
+        onTap: onTap,
+      ),
+    );
+  }
+}
+
+class RowDemo extends StatelessWidget {
+  const RowDemo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Row Layout')),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: const [
+            ColoredBoxWidget(color: Colors.red, label: 'Red'),
+            ColoredBoxWidget(color: Colors.green, label: 'Green'),
+            ColoredBoxWidget(color: Colors.blue, label: 'Blue'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ColumnDemo extends StatelessWidget {
+  const ColumnDemo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Column Layout')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: const [
+            ColoredBoxWidget(color: Colors.red, label: 'Red'),
+            ColoredBoxWidget(color: Colors.green, label: 'Green'),
+            ColoredBoxWidget(color: Colors.blue, label: 'Blue'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class StackDemo extends StatelessWidget {
+  const StackDemo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Stack Layout')),
+      body: Center(
+        child: Stack(
+          alignment: Alignment.center,
+          children: const [
+            SizedBox(
+              width: 240,
+              height: 240,
+              child: ColoredBox(color: Colors.red),
+            ),
+            SizedBox(
+              width: 180,
+              height: 180,
+              child: ColoredBox(color: Colors.green),
+            ),
+            SizedBox(
+              width: 120,
+              height: 120,
+              child: ColoredBox(color: Colors.blue),
+            ),
+            Positioned(
+              bottom: 8,
+              right: 8,
+              child: Text(
+                'Stacked',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ColoredBoxWidget extends StatelessWidget {
+  final Color color;
+  final String label;
+  const ColoredBoxWidget({super.key, required this.color, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 100,
+      height: 100,
+      color: color,
+      alignment: Alignment.center,
+      child: Text(
+        label,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}
+
+
